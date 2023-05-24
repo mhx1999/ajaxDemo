@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+
+    <script type="text/javascript" src="script/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        //页面加载完成之后执行
+       $(function (){
+
+           $("#checkButton").click(function (){
+var uname = $("#uname").val();
+              //alert("uname")
+               //创建XMLHttpRequest对象（ajax引擎对象）
+             var xmlHttpRequest = new XMLHttpRequest();
+               //2.发送指定指定数据open，send
+              xmlHttpRequest.open("POST","http://localhost:8080/ajax/checkUserServlet",false)
+
+
+               //给xmlHttpRequest绑定事件onreadystatechange
+               xmlHttpRequest.onreadystatechange = function (){
+                  if(xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200){
+                      if(xmlHttpRequest.responseText == ""){
+                      var val = $("#myres").val("用户名可用");
+
+
+                      }else {
+                          var val = $("#myres").val("用户名不可用");
+
+                      }
+                      $("#div1").text(xmlHttpRequest.responseText) ;
+                  }
+               }
+               xmlHttpRequest.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+               xmlHttpRequest.send("mhx1999="+uname);
+
+
+           })
+       })
+
+
+
+    </script>
+
+</head>
+<body>
+<h1>用户注册</h1>
+<form action="/ajax/checkUserServlet" method="post">
+    用户名字:<input type="text" name="kkkkkk" id="uname">
+    <input type="button" id="checkButton" value="验证用户名">
+    <input style="border-width: 0;color: red" type="text" id="myres"><br/><br/>
+    用户密码:<input type="password" name="password"><br/><br/>
+    电子邮件:<input type="text" name="email"><br/><br/>
+    <input type="submit" value="用户注册">
+</form>
+<h1>返回的 json 数据</h1>
+<div id="div1"></div>
+</body>
+</html>
